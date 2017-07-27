@@ -118,7 +118,7 @@ class DocParser(object):
     def _parse_property(self, **kwargs):
         arg = kwargs.get('arg', None)
         self.properties.setdefault(arg, {}).update({
-            'type': 'string'
+            'description': self._get_body(**kwargs)
         })
 
     def _parse_ptype(self, **kwargs):
@@ -140,7 +140,8 @@ class DocParser(object):
         body = self._get_body(**kwargs)
         self.responseMessages.append({
             'code': arg,
-            'message': body
+            'message': body,
+            'responseModel': self.responseClass
         })
 
     def _parse_notes(self, **kwargs):
