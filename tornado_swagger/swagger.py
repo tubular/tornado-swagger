@@ -125,9 +125,10 @@ class DocParser(object):
         arg = kwargs.get('arg', None)
         code = self._parse_epytext_para('code', **kwargs)
         link = self._parse_epytext_para('link', **kwargs)
+        body = self._get_body(**kwargs)
         if code is None:
             self.properties.setdefault(arg, {}).update({
-                'type': link
+                'type': body
            })
         elif code == 'list':
             self.properties.setdefault(arg, {}).update({
