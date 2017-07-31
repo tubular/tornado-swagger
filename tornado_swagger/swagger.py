@@ -274,3 +274,4 @@ def docs(**opts):
 class Application(tornado.web.Application):
     def __init__(self, handlers=None, default_host="", transforms=None, **settings):
         super(Application, self).__init__(swagger_handlers() + handlers, default_host, transforms, **settings)
+        self.handlers = handlers
