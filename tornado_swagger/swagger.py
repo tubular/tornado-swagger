@@ -40,7 +40,7 @@ class DocParser(object):
     def __init__(self):
         self.notes = None
         self.summary = None
-        self.responseClass = None
+        self.responseClasses = {}
         self.responseMessages = []
         self.params = {}
         self.properties = {}
@@ -112,8 +112,10 @@ class DocParser(object):
         })
 
     def _parse_rtype(self, **kwargs):
+        arg = kwargs.get('arg', None)
         body = self._get_body(**kwargs)
-        self.responseClass = body
+        if arg:
+            self.responseClasses[arg] = body
 
     def _parse_property(self, **kwargs):
         arg = kwargs.get('arg', None)
@@ -139,11 +141,15 @@ class DocParser(object):
     def _parse_return(self, **kwargs):
         arg = kwargs.get('arg', None)
         body = self._get_body(**kwargs)
-        self.responseMessages.append({
+        response_message = {
             'code': arg,
             'message': body,
-            'responseModel': self.responseClass
-        })
+        }
+        response_class = self.responseClasses.get(arg)
+        if response_class:
+            response_message['responseModel'] = response_class
+
+        self.responseMessages.append(response_message)
 
     def _parse_notes(self, **kwargs):
         body = self._get_body(**kwargs)
@@ -158,7 +164,9 @@ class DocParser(object):
 
     @staticmethod
     def _sanitize_doc(comment):
-        return comment.replace('\n', '<br/>') if comment else comment
+        # Epydoc's to_plaintext method will word wrap lines over 75 chars with a newline with no
+        # option to override this behavior, sadly. Let's remove those newlines here.
+        return comment.replace('\n', ' ') if comment else comment
 
     @staticmethod
     def _get_body(**kwargs):

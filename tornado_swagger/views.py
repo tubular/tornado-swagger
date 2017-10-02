@@ -96,7 +96,6 @@ class SwaggerApiHandler(tornado.web.RequestHandler):
                 'parameters': api.params.values(),
                 'summary': api.summary,
                 'notes': api.notes,
-                'responseClass': api.responseClass,
                 'responseMessages': api.responseMessages,
             } for api in operations]
         }
