@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import urlparse
-import json
 import inspect
+import json
+
 import tornado.web
-import tornado.template
-from settings import SWAGGER_VERSION, URL_SWAGGER_API_LIST, URL_SWAGGER_API_SPEC, models
+from six.moves.urllib.parse import urlparse
+
+from .settings import SWAGGER_VERSION, URL_SWAGGER_API_LIST, URL_SWAGGER_API_SPEC, models
+
 
 __author__ = 'serena'
 
