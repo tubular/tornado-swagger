@@ -4,10 +4,10 @@
 import inspect
 from functools import wraps
 import epydoc.markup
-from HTMLParser import HTMLParser
+from six.moves.html_parser import HTMLParser
 import tornado.web
-from settings import default_settings, models
-from handlers import swagger_handlers
+from .settings import default_settings, models
+from .handlers import swagger_handlers
 
 __author__ = 'serena'
 
