@@ -105,12 +105,14 @@ class SwaggerApiHandler(tornado.web.RequestHandler):
     @staticmethod
     def find_api(handlers):
         for (spec) in handlers:
-            if hasattr(spec, 'handler_class'):
-                for (name, member) in inspect.getmembers(spec.handler_class):
-                    if inspect.ismethod(member) and hasattr(member, 'rest_api'):
-                        spec_path = spec.matcher._path % tuple(['{%s}' % arg for arg in member.rest_api.func_args])
-                        members = inspect.getmembers(spec.handler_class)
-                        operations = [member.rest_api for (name, member) in inspect.getmembers(spec.handler_class)
-                                      if hasattr(member, 'rest_api')]
-                        yield spec_path, spec, operations
-                        break
+            if not hasattr(spec, 'handler_class'):
+                continue
+            for (name, member) in inspect.getmembers(spec.handler_class):
+                if not (inspect.ismethod(member) and hasattr(member, 'rest_api')):
+                    continue
+                spec_path = spec.matcher._path % tuple(['{%s}' % arg for arg in member.rest_api.func_args])
+                members = inspect.getmembers(spec.handler_class)
+                operations = [member.rest_api for (name, member) in inspect.getmembers(spec.handler_class)
+                              if hasattr(member, 'rest_api')]
+                yield spec_path, spec, operations
+                break
