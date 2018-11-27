@@ -7,7 +7,7 @@ with open('README') as file:
     long_description = file.read()
 
 setup(name='tornado-swagger',
-      version='1.0',
+      version='1.1',
       url='https://github.com/SerenaFeng/tornado-swagger',
       zip_safe=False,
       packages=['tornado_swagger'],
