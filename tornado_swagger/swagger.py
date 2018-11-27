@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 import inspect
 from functools import wraps
 import epydoc.markup
@@ -40,10 +41,10 @@ class DocParser(object):
     def __init__(self):
         self.notes = None
         self.summary = None
-        self.responseClasses = {}
+        self.responseClasses = OrderedDict()
         self.responseMessages = []
-        self.params = {}
-        self.properties = {}
+        self.params = OrderedDict()
+        self.properties = OrderedDict()
 
     def parse_docstring(self, text):
         if text is None:
